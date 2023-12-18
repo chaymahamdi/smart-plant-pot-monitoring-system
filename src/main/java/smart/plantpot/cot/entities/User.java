@@ -1,41 +1,85 @@
 package smart.plantpot.cot.entities;
 
+import jakarta.json.bind.annotation.JsonbVisibility;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import smart.plantpot.cot.util.Identity;
+import java.io.Serializable;
+import java.util.Objects;
+
 
 @Entity
-public class User {
-    public String getMail() {
+@JsonbVisibility(FieldPropertyVisibilityStrategy.class)
+public class User implements Serializable, Identity { // User entity for database
+    @Id
+    private String mail; //email address
+    @Column
+    private String fullname;
+    @Column
+    private String password;
+    @Column
+    private Long permissionLevel;
+
+
+    public User() {
+    }
+
+    public User(String mail, String fullname, String password,Long permissionLevel) {
+        this.mail=mail;
+        this.fullname=fullname;
+        this.password = password;
+        this.permissionLevel=permissionLevel;
+    }
+
+
+
+    public String getmail() {
         return mail;
     }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public String getFullname() {
+    public String getfullname() {
         return fullname;
     }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public String getPassword() {
+    public String getpassword() {
         return password;
     }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public Long getPermissionLevel() {
+        return permissionLevel;
     }
 
-    @Id
-    private String mail;
-  @Column
-    private String fullname;
-  @Column
-    private String password;
+    public void setPermissionLevel(Long permissionLevel) {
+        this.permissionLevel = permissionLevel;
+    }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        User user = (User) o;
+        return Objects.equals(mail, user.mail);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(mail);
+    }
+    @Override
+    public String getName() {
+        return getmail();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + mail + '\'' +
+                ", fullname=" + fullname+
+
+                '}';
+    }
 
 }

@@ -15,13 +15,20 @@
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
         <junit.version>5.9.2</junit.version>
+        <jakarta.nosql.version>1.0.0-b7</jakarta.nosql.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
-            <version>9.1.0</version>
+            <version>10.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.microprofile.config</groupId>
+            <artifactId>microprofile-config-api</artifactId>
+            <version>3.0.3</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -37,15 +44,57 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.smallrye.config</groupId>
-            <artifactId>smallrye-config-core</artifactId>
-            <version>3.3.4</version>
+            <groupId>jakarta.nosql</groupId>
+            <artifactId>nosql-core</artifactId>
+            <version>1.0.0-b7</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.nosql</groupId>
+            <artifactId>nosql-document</artifactId>
+            <version>1.0.0-b7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>4.11.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jnosql.databases</groupId>
+            <artifactId>jnosql-mongodb</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20230227</version>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-core</artifactId>
-            <version>4.0.3</version>
+            <version>4.11.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>9.21.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.mkammerer</groupId>
+            <artifactId>argon2-jvm</artifactId>
+            <version>2.11</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -54,6 +103,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.3.2</version>
+                <configuration>
+                <archive>
+                    <manifestEntries>
+                        <Dependencies>jdk.unsupported</Dependencies>
+                    </manifestEntries>
+                </archive>
+            </configuration>
             </plugin>
         </plugins>
     </build>
