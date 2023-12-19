@@ -1,9 +1,10 @@
 package smart.plantpot.cot.entities;
 
 import jakarta.json.bind.annotation.JsonbVisibility;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+
+import jakarta.nosql.Column;
+import jakarta.nosql.Entity;
+import jakarta.nosql.Id;
 import smart.plantpot.cot.util.Identity;
 import java.io.Serializable;
 import java.util.Objects;
