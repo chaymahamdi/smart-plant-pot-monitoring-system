@@ -17,6 +17,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
+import java.security.cert.Certificate;
 import java.util.*;
 
 @Singleton
@@ -98,7 +99,8 @@ public class OAuth2PKCE {
             if (key instanceof PrivateKey) {
                 pk = (PrivateKey) key; //get the private key, the private key is used for signing tokens
                 // Get certificate of public key
-                java.security.cert.Certificate cert = ks.getCertificate(alias);
+                Certificate cert = ks.getCertificate(alias);
+                System.out.println("cert");
                 pub = cert.getPublicKey(); // get the public key, the public key is used for verifying tokens
             }
         } catch (Exception e) {

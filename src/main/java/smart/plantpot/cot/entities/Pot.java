@@ -25,6 +25,17 @@ public class Pot implements Serializable {
     private User user;
 
 
+    public Pot() {
+
+    }
+
+    public Pot(String id, String name, String plantType, PlantState plantState, User user) {
+        this.id = id;
+        this.name = name;
+        this.plantType = plantType;
+        this.plantState = plantState;
+        this.user = user;
+    }
 
     public User getUser() {
         return user;
@@ -36,13 +47,7 @@ public class Pot implements Serializable {
 
 
 
-    public Pot(String id, String name, String plantType, PlantState plantState, User user) {
-        this.id = id;
-        this.name = name;
-        this.plantType = plantType;
-        this.plantState = plantState;
-        this.user = user;
-    }
+
 
     public String getId() {
         return id;
