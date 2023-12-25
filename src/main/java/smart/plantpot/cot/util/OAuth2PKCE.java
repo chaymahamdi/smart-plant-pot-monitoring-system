@@ -20,37 +20,51 @@ import java.security.*;
 import java.util.*;
 
 @Singleton
-public class OAuth2PKCE { //class containing useful methods needed to implement Oauth2 PKCE authentication with JWT
+public class OAuth2PKCE {
+    // implement Oauth2 PKCE authentication with JWT
+    // client ( App ---- send(authorization request + code challenge)---> OAuth0
+    // user login and send their credentials to OAuth0,
+    //OAuth ---send( authorization code) ----to App
+    // App ----send(authorization code + code verifier)---OAuth
+    // Oauth ----send(Access ID + Access token) ----- App
     public static final String AuthenticationSchemePrefix = "Bearer "; //All requests must have the prefix "Bearer "
+    private final Map<String,String> challenges = new HashMap<>();
+    //Hashmap to store the code challenges of users
+    private final Map<String,String> codes = new HashMap<>();
+    // Hashmap to store the authorization code
+    private final Map<String,Identity> identities = new HashMap<>();
+    //Hashmap to store the identities
 
-    private final Map<String,String> challenges = new HashMap<>(); //Hashmap to store the code challenges of users
-    private final Map<String,String> codes = new HashMap<>(); // Hashmap to store the authorization code
-    private final Map<String,Identity> identities = new HashMap<>(); //Hashmap tp store the identities
-
-
-
-    public String addChallenge(String codeChallenge,String clientId){  //store the code challenge in the hashmap and generate the signinId
+    public String addChallenge(String codeChallenge,String clientId){
+        //store the code challenge in the hashmap and generate the signinId
         String signInId = clientId+"#"+UUID.randomUUID().toString();
         challenges.put(codeChallenge,signInId);
         return signInId;
     }
-    public String generateAuthorizationCode(String signInId, Identity identity){ //generate the authorization code and store the code and identity in hashmap
+    public String generateAuthorizationCode(String signInId, Identity identity){ 
+        //generate the authorization code and store the code and identity in hashmap
         String code = UUID.randomUUID().toString();
         codes.put(signInId,code);
         identities.put(code,identity);
         return code;
     }
 
-    public String checkCode(String code,String codeVerifier) throws Exception {// takes from the client an authorization code and the code verifier as input and generate a code challenge and compares it to the first code challenge given by the client. If they are equal, generate a jwt token.
+    public String checkCode(String code,String codeVerifier) throws Exception {
+        // takes from the client an authorization code and the code verifier as input and generate a code challenge and compares it to the first code challenge given by the client. If they are equal, generate a jwt token.
 
-        MessageDigest md = MessageDigest.getInstance("SHA-256");// code challenge=sha256(code verifier)
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        // code challenge=sha256(code verifier)
         md.update(codeVerifier.getBytes(StandardCharsets.UTF_8));
         String key = Base64.getEncoder().encodeToString(md.digest());
-        key=key.substring(0,key.length()-1);//adapt the code challenge generation to the generated in flutter
-        if (key.contains("/")) {key=key.replace("/","_");}//adapt the code challenge generation to the generated in flutter
-        if (key.contains("+")) {key=key.replace("+","-");}//adapt the code challenge generation to the generated in flutter
+        key=key.substring(0,key.length()-1);
+        //adapt the code challenge generation to the generated in the app : PWA
+        if (key.contains("/")) {key=key.replace("/","_");}
+        //adapt the code challenge generation to the generated in the app : PWA
+        if (key.contains("+")) {key=key.replace("+","-");}
+        //adapt the code challenge generation to the generated in the app
         if(challenges.containsKey(key)){
-            if(codes.get(challenges.get(key)).equals(code)){//compare the authorization code given to the one generated before
+            if(codes.get(challenges.get(key)).equals(code)){
+                //compare the authorization code given to the one generated before
                 codes.remove(challenges.get(key)); // remove the instance to not overload the hashmap
                 challenges.remove(key); // remove the instance to not overload the hashmap
                 return generateTokenFor(identities.remove(code)); //generate the jwt token
@@ -58,7 +72,7 @@ public class OAuth2PKCE { //class containing useful methods needed to implement 
         }
         codes.entrySet().stream().filter(e -> e.getValue().equals(code)).findFirst().ifPresent(
                 e -> {
-                    codes.remove(e.getKey()); // remove the instances to not overload the hasmap
+                    codes.remove(e.getKey()); // remove the instances to not overload the hashmap
                     challenges.entrySet().stream().filter(f -> f.getValue().equals(e.getKey())).findFirst()
                             .ifPresent(f->challenges.remove(f.getKey()));
                 }
@@ -77,6 +91,7 @@ public class OAuth2PKCE { //class containing useful methods needed to implement 
             KeyStore ks = KeyStore.getInstance("JKS"); // the jwt keystore is in .jks format
             String configDir = System.getProperty("jboss.server.config.dir"); // the jwt keystore must be generated beforehand with openssl and put in the wildfly/standalone/configuration directory beforehand
             String keystorePath = configDir + File.separator + "jwt.jks";
+            System.out.println("keystorepath"+keystorePath);
             fis = new FileInputStream(keystorePath); //read the file
             ks.load(fis, password); // the file can only be loaded with its correct password
             Key key = ks.getKey("jwt", password); // alias and password of keystore

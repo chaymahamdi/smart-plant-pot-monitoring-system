@@ -8,7 +8,8 @@ import jakarta.nosql.Entity;
 import jakarta.nosql.Id;
 @Entity
 @JsonbVisibility(FieldPropertyVisibilityStrategy.class)
-public class SensorDB implements Serializable { // Sensor entity for the geolocation services, it will be stored in the database since the location won't change for each sensor.
+public class SensorDB implements Serializable {
+    // Sensor entity for the geolocation services, it will be stored in the database since the location won't change for each sensor.
     @Id
     private String id;
 

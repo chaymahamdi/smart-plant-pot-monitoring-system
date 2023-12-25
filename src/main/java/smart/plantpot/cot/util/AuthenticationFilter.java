@@ -25,9 +25,11 @@ import java.util.Arrays;
 
 @Provider
 @PreMatching // indicate that the filter will be applied globally to all resources
-public class AuthenticationFilter implements ContainerRequestFilter {// AuthenticationFilter will block requests that do not contain JWT in their header
+public class AuthenticationFilter implements ContainerRequestFilter {
+    // AuthenticationFilter will block requests that do not contain JWT in their header
     public final static String XSS_COOKIE_NAME = "xssCookie";
-    // the following paths will later be set to not be blocked by the filter since they represent the signin and signup with oauth pkce paths. JWT can only be obtained after the signin
+    // the following paths will later be set to not be blocked by the filter since they represent
+    // the signin and signup with oauth pkce paths. JWT can only be obtained after the signin
     public final static String authorizePath = "/api/authorize";
     public final static String authenticatePath = "/api/authenticate/";
     public final static String authenticateadminPath = "/api/authenticateadmin/";
@@ -36,37 +38,42 @@ public class AuthenticationFilter implements ContainerRequestFilter {// Authenti
     public final static String forgottenpasswordpath= "/api/mail/";
     @Override
     public void filter(ContainerRequestContext containerRequestContext) throws IOException {
-        String authorizationHeader = containerRequestContext.getHeaderString(HttpHeaders.AUTHORIZATION); // get the access token from the authorization header
-        final String path = containerRequestContext.getUriInfo().getRequestUri().getPath(); // get path of the request
+        String authorizationHeader = containerRequestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
+        // get the access token from the authorization header
+        final String path = containerRequestContext.getUriInfo().getRequestUri().getPath(); // get path URI (uniform resource identifier) of the request
         if(path.equals(authorizePath)||path.contains(tokenPath)||path.equals(authenticatePath)||path.equals(personpath)||path.equals(authenticateadminPath)||path.contains(forgottenpasswordpath)){
             return; // if the request path is equal to the signin or signup paths, the request is allowed  without an access token
         }
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) { // access tokens  are sent in the headers with a prefix of Bearer
-            String authenticationToken = authorizationHeader.substring(7); // get the access token from the header by taking the part after the prefix Bearer
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            // access tokens  are sent in the headers with a prefix of Bearer
+            String authenticationToken = authorizationHeader.substring(7);
+            // get the access token from the header by taking the part after the prefix Bearer
             if (checkToken(authenticationToken)){
                 return;}// Verify the signature  and time validity of token, if they are valid allow the request
             else{containerRequestContext.abortWith(Response
                     .status(Response.Status.UNAUTHORIZED)
-                    .entity("User cannot access the resource.")
+                    .entity("Unauthorized to access the resource.")
                     .build());} // if the jwt is not valid, block the request
 
         }
         //  if the paths do not coresspond and the user did not send a header containing the access token, block the request.
         else{containerRequestContext.abortWith(Response
                 .status(Response.Status.UNAUTHORIZED)
-                .entity("User cannot access the resource.")
+                .entity("Unauthorized access the resource.")
                 .build());}
 
 
     }
     private static final Config config = ConfigProvider.getConfig();
+    // config is used to access variables in microprofile-config.properties
     static {
         //acquire the public key which is necessary for the verification of tokens
         FileInputStream fis = null;
         char[] password = config.getValue("jwtSecret",String.class).toCharArray();
         String alias = config.getValue("jwtAlias",String.class);
         PrivateKey pk = null;
-        PublicKey pub = null;try {
+        PublicKey pub = null;
+        try {
             KeyStore ks = KeyStore.getInstance("JKS");
             String configDir = System.getProperty("jboss.server.config.dir");
             String keystorePath = configDir + File.separator + "jwt.jks";
@@ -100,12 +107,16 @@ public class AuthenticationFilter implements ContainerRequestFilter {// Authenti
         try {
             signedJWT = SignedJWT.parse(token);
             JWSVerifier verifier = new RSASSAVerifier((RSAPublicKey)publicKey);
-            if(!signedJWT.verify(verifier)){//verify with the public key the signature of the token
+            if(!signedJWT.verify(verifier)){
+                //verify with the public key the signature of the token
                 return false;
             }
-            JWT jwt = JWTParser.parse(token);long currentTime = System.currentTimeMillis(); // get current time
-            if( jwt.getJWTClaimsSet().getIssuer().equals(ISSUER) && // verify issuer and audience and compare expiration time with current time
-                    jwt.getJWTClaimsSet().getAudience().containsAll(Arrays.asList(AUDIENCE)) && jwt.getJWTClaimsSet().getExpirationTime().getTime()>currentTime){
+            JWT jwt = JWTParser.parse(token);
+            long currentTime = System.currentTimeMillis(); // get current time
+            if( jwt.getJWTClaimsSet().getIssuer().equals(ISSUER) &&
+                    // verify issuer and audience and compare expiration time with current time
+                    jwt.getJWTClaimsSet().getAudience().containsAll(Arrays.asList(AUDIENCE))
+                    && jwt.getJWTClaimsSet().getExpirationTime().getTime()>currentTime){
                 return true;
             }
             return false;

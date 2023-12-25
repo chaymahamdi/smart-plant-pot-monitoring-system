@@ -1,6 +1,7 @@
 package smart.plantpot.cot.controllers;
 
-public enum Role {   //Different roles for the user which are defined by a permsision value
+public enum Role {
+    //Different roles for the user which are defined by a permsision value
     Surfer(1L),   // regular user
     Administrator(2L); // administrator of the application
 
