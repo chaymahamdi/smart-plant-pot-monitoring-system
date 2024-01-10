@@ -11,7 +11,6 @@ public interface UserRepository  extends CrudRepository <User, String> { // repo
     Stream<User> findAll();
     Stream<User> findBypermissionLevel(Long L);
     Stream<User> findByfullnameIn(String s);
-    Optional<User> findById(String user_id);
 
 
 }

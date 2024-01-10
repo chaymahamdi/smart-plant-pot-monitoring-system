@@ -42,7 +42,7 @@ public class OAuth2PKCE {
         challenges.put(codeChallenge,signInId);
         return signInId;
     }
-    public String generateAuthorizationCode(String signInId, Identity identity){ 
+    public String generateAuthorizationCode(String signInId, Identity identity){
         //generate the authorization code and store the code and identity in hashmap
         String code = UUID.randomUUID().toString();
         codes.put(signInId,code);
@@ -95,7 +95,7 @@ public class OAuth2PKCE {
             System.out.println("keystorepath"+keystorePath);
             fis = new FileInputStream(keystorePath); //read the file
             ks.load(fis, password); // the file can only be loaded with its correct password
-            Key key = ks.getKey("jwt", password); // alias and password of keystore
+            Key key = ks.getKey(alias, password); // alias and password of keystore
             if (key instanceof PrivateKey) {
                 pk = (PrivateKey) key; //get the private key, the private key is used for signing tokens
                 // Get certificate of public key

@@ -38,6 +38,8 @@ public class PublishWebsocketEndpoint {
     }
     @OnOpen
     public void onOpen(Session session){
+        MqttMessageEventManager eventmanager=new MqttMessageEventManager();
+        eventmanager.start();
         sessions.put(session.getId(), session); //add the new session
 
     }

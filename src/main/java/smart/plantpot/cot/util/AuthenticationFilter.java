@@ -79,7 +79,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             String keystorePath = configDir + File.separator + "jwt.jks";
             fis = new FileInputStream(keystorePath);
             ks.load(fis, password);
-            Key key = ks.getKey("jwt", password);
+            Key key = ks.getKey(alias, password);
             if (key instanceof PrivateKey) {
                 pk = (PrivateKey) key;
                 // Get certificate of public key
