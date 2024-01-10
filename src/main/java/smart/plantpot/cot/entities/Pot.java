@@ -5,7 +5,6 @@ import jakarta.json.bind.annotation.JsonbVisibility;
 import jakarta.nosql.Column;
 import jakarta.nosql.Entity;
 import jakarta.nosql.Id;
-import smart.plantpot.cot.controllers.PlantState;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -20,30 +19,32 @@ public class Pot implements Serializable {
     @Column
     private String plantType;
     @Column
-    private PlantState plantState;
+    private Long plantState;
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
     @Column
-    private User user;
+    private String user_id;
 
 
     public Pot() {
 
     }
 
-    public Pot(String id, String name, String plantType, PlantState plantState, User user) {
+    public Pot(String id, String name, String plantType, Long plantState, String user_id) {
         this.id = id;
         this.name = name;
         this.plantType = plantType;
         this.plantState = plantState;
-        this.user = user;
+        this.user_id = user_id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
 
 
@@ -75,11 +76,11 @@ public class Pot implements Serializable {
         this.plantType = plantType;
     }
 
-    public PlantState getPlantState() {
+    public Long getPlantState() {
         return plantState;
     }
 
-    public void setPlantState(PlantState plantState) {
+    public void setPlantState(Long plantState) {
         this.plantState = plantState;
     }
     @Override
@@ -87,11 +88,11 @@ public class Pot implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Pot)) return false;
         Pot pot = (Pot) o;
-        return Objects.equals(getId(), pot.getId()) && Objects.equals(getName(), pot.getName()) && Objects.equals(getPlantType(), pot.getPlantType()) && getPlantState() == pot.getPlantState() && Objects.equals(getUser(), pot.getUser());
+        return Objects.equals(getId(), pot.getId()) && Objects.equals(getName(), pot.getName()) && Objects.equals(getPlantType(), pot.getPlantType()) && getPlantState() == pot.getPlantState() && Objects.equals(getUser_id(), pot.getUser_id());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getPlantType(), getPlantState(), getUser());
+        return Objects.hash(getId(), getName(), getPlantType(), getPlantState(), getUser_id());
     }
 }

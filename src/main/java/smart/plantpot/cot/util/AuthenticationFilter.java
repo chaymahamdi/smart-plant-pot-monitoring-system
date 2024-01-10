@@ -59,7 +59,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         //  if the paths do not coresspond and the user did not send a header containing the access token, block the request.
         else{containerRequestContext.abortWith(Response
                 .status(Response.Status.UNAUTHORIZED)
-                .entity("Unauthorized access the resource.")
+                .entity("Unauthorized access the resource......")
                 .build());}
 
 
