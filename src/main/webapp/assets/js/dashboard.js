@@ -1,4 +1,78 @@
 const base_url = "http://localhost:8080/";
+const temperatureElement = document.getElementById("temperature");
+const humidityElement = document.getElementById("humidity");
+const imageElement = document.getElementById("image");
+const timetemperature = document.getElementById("timetemperature");
+const timehumidity = document.getElementById("timehumidity");
+const timeimage = document.getElementById("timeimage");
+let exampleSocket;
+const geolocationOptions = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+};
+
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError, geolocationOptions);
+}
+function geolocationSuccess(position) {
+  const latitude = position.coords.latitude;
+  const longitude = position.coords.longitude;
+  console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+}
+
+function geolocationError(error) {
+  console.error(`Error getting geolocation: ${error.message}`);
+}
+
+
+function setupWebSocket() {
+  // WebSocket handling
+  exampleSocket = new WebSocket("ws://localhost:8080/pushes", []);
+
+  exampleSocket.onopen = (event) => {
+    console.log("WebSocket opened:", event);
+  };
+
+  exampleSocket.onmessage = (event) => {
+    console.log("WebSocket message received:", event.data);
+    const msg = JSON.parse(event.data);
+    const currentTime = new Date();
+    timeStr = currentTime.toLocaleTimeString();
+    if (msg.temperature){
+      console.log(msg.temperature);
+      console.log(msg.humidity);
+      console.log(timeStr);
+      if (msg.temperature!=1000 && msg.humidity!=120){
+        temperatureElement.textContent = `${msg.temperature}°C`;
+        humidityElement.textContent = `${msg.humidity}%`;
+        timetemperature.textContent = `${timeStr} AM`;
+        timehumidity.textContent = `${timeStr} AM`;
+      }
+    }
+    if (msg.image){
+      console.log(msg.image);
+      imageElement.textContent = `${msg.image}`;
+      timeimage.textContent=`${timeStr} AM`;
+    }
+
+  };
+  exampleSocket.onerror = (event) => {
+    console.error("WebSocket error:", event);
+  };
+
+  exampleSocket.onclose = (event) => {
+    console.log("WebSocket closed:", event);
+    // Reopen the WebSocket after a delay (e.g., 1 second)
+    setTimeout(setupWebSocket, 1000);
+  };
+}
+
+// Call the setupWebSocket function to initiate the WebSocket connection
+setupWebSocket();
+
+
+
 $(document).ready(function () {
   $.ajax({
     url: base_url + "api/profile/",
@@ -69,3 +143,4 @@ $.ajax({
     //document.getElementById("displayname").innerHTML = data.fullname
   },
 });
+

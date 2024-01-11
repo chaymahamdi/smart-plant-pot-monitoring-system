@@ -2,9 +2,14 @@ const smartplantDev = "dev-smartplantpot-app";
 const assets = [
   "/",
   "/index.html",
+   "/dashboard.html",
   "/css/style.css",
   "assets/img/favicon.png",
   "assets/img/apple-touch-icon.png",
+    "images/img1.jpg",
+  "images/img2.jpg",
+  "images/img3.jpg",
+  "images/img4.jpg",
   "assets/vendor/bootstrap/css/bootstrap.min.css",
   "assets/vendor/bootstrap-icons/bootstrap-icons.css",
   "assets/vendor/boxicons/css/boxicons.min.css",
@@ -24,7 +29,8 @@ const assets = [
   "assets/vendor/jquery/jquery-3.2.1.min.js",
   "assets/js/main.js",
   "assets/js/app.js",
-  "assets/js/index.js"
+  "assets/js/index.js",
+  "assets/js/dashboard.js"
 
 ];
 
