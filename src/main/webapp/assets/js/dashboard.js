@@ -1,4 +1,4 @@
-const base_url = "http://localhost:8080/";
+const base_url = "https://smartplantpot.me/";
 const temperatureElement = document.getElementById("temperature");
 const humidityElement = document.getElementById("humidity");
 const imageElement = document.getElementById("image");
@@ -28,7 +28,7 @@ function geolocationError(error) {
 
 function setupWebSocket() {
   // WebSocket handling
-  exampleSocket = new WebSocket("ws://localhost:8080/pushes", []);
+  exampleSocket = new WebSocket("ws://smartplantpot.me/pushes", []);
 
   exampleSocket.onopen = (event) => {
     console.log("WebSocket opened:", event);

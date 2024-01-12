@@ -1,4 +1,4 @@
-const base_url="http://localhost:8080/";
+const base_url="https://smartplantpot.me/";
 function generateRandomString() {
   var array = new Uint32Array(28);
   window.crypto.getRandomValues(array);
