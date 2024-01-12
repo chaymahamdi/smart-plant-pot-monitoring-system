@@ -35,7 +35,7 @@ the middleware, the mosquitto broker and the database. The virtual machine have 
 
 Smart Pot Demo
 
-![Smart Pot Demo](docs/media/Demo.jpg)
+![Smart Pot Demo](media/Demo.jpg)
 
 
 
