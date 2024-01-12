@@ -20,4 +20,19 @@ These are the technologies necessary to run this project:
 - Openstreetmap
 - Raspberry pi 4
 - DHT_11 Temparture and humidity sensor
+- Raspberry Pi Wide Angle Camera Module
 - MongoDB
+
+## Deployment machine
+
+With our school mail, we can get a 100$ voucher inside of Microsoft Azure. With this voucher, we can create a virtual machine capable of hosting
+the middleware, the mosquitto broker and the database. The virtual machine have the following characteristics:
+- Ram: 4 Gib
+- vCPUS: 2
+- Resource disk size: 8 Gib
+
+## Demo
+
+
+
+## Installation Guide
