@@ -34,8 +34,7 @@ the middleware, the mosquitto broker and the database. The virtual machine have 
 ## Demo
 
 Smart Pot Demo
-
-![Smart Pot Demo](media/Demo.jpg)
+<img src="media/Demo.jpg" alt="Demo Image" width="400"/>
 
 
 
