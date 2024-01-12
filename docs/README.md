@@ -46,3 +46,5 @@ Smart Pot Demo:
 Admin Interfaces: 
 <br/>
 <img src="media/Admin_interface_1.PNG" alt="Interface" width="400"/>
+<br/>
+<img src="media/Admin interface_2.PNG" alt="Interface" width="400"/>
