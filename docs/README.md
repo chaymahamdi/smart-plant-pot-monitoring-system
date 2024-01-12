@@ -33,7 +33,7 @@ the middleware, the mosquitto broker and the database. The virtual machine have 
 
 ## Demo
 
-Smart Pot Demo
+Smart Pot Demo:
 <br/>
 <img src="media/Demo.jpg" alt="Demo Image" width="400"/>
 
@@ -43,3 +43,6 @@ Smart Pot Demo
 
 
 ## Admin Dashboard
+Admin Interfaces: 
+<br/>
+<img src="media/Admin_interface_1.PNG" alt="Interface" width="400"/>
