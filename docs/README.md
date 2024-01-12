@@ -1,4 +1,4 @@
-# Smart_Plant_Pot_CoT
+# Smart Plant Pot
 
 This smart plant pot project was developed within the framework of the Cloud of Things module at Sup'Com, with a specific focus on monitoring and maintaining optimal plant health, providing a dedicated solution for tracking the well-being of plants.
 
@@ -36,3 +36,6 @@ the middleware, the mosquitto broker and the database. The virtual machine have 
 
 
 ## Installation Guide
+
+
+## Admin Dashboard
