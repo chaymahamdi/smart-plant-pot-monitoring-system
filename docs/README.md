@@ -33,6 +33,10 @@ the middleware, the mosquitto broker and the database. The virtual machine have 
 
 ## Demo
 
+Smart Pot Demo
+
+![Smart Pot Demo](docs/media/Demo.jpg)
+
 
 
 ## Installation Guide
